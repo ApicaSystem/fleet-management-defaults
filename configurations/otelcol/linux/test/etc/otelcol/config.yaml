@@ -1,0 +1,68 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  hostmetrics:
+    collection_interval: 60s
+    scrapers:
+      cpu:
+        metrics:
+          system.cpu.utilization:
+            enabled: true
+      memory:
+        metrics:
+          system.linux.memory.available:
+            enabled: true
+          system.memory.utilization:
+            enabled: true
+      disk:
+      network:
+      load:
+      filesystem:
+        include_virtual_filesystems: true
+        metrics:
+          system.filesystem.inodes.usage:
+            enabled: true
+          system.filesystem.usage:
+            enabled: true
+          system.filesystem.utilization:
+            enabled: true
+      paging:
+      processes:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'prom-metrics-collector'
+          scrape_interval: 60s
+          static_configs:
+            - targets: ['0.0.0.0:9464']
+processors:
+  resource/test:
+    attributes:
+      - key: test
+        value: "test"
+        action: upsert
+  resource/os:
+    attributes:
+      - key: ostype
+        value: "{{$ .Agent.platform }}"
+        action: upsert
+  resource/host:
+    attributes:
+      - key: host.name
+        value: "{{$ .Agent.host_name }}"
+        action: upsert
+exporters:
+  debug:
+    verbosity: detailed
+  prometheus:
+    endpoint: 0.0.0.0:9464
+extensions:
+service:
+  extensions:
+  pipelines:
+    metrics:
+      receivers: [otlp, hostmetrics]
+      processors: [resource/test, resource/os, resource/host]
+      exporters: [prometheus]

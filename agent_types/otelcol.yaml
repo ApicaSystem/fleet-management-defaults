@@ -1,0 +1,36 @@
+agent_type_id: otelcol
+description: OpenTelemetry Collector
+icon: PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJwcmVmaXhfX0xheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxzdHlsZT4ucHJlZml4X19zdDB7ZmlsbDojNDQ0fTwvc3R5bGU+PHBhdGggY2xhc3M9InByZWZpeF9fc3QwIiBkPSJNMTguMiA3OC40Yy0xLjItMS4yLTMuMS0xLjItNC4zIDBMNyA4NS4zbC0xLjktMS45Yy0xLTEtMi44LTEtMy44IDBzLTEgMi44IDAgMy44bDExLjUgMTEuNWMxIDEgMi44IDEgMy44IDBzMS0yLjggMC0zLjhMMTQuNyA5M2w2LjktNi45YzEuMi0xLjIgMS4yLTMuMSAwLTQuM2wtMy40LTMuNHpNNTIuOSA1NC42Yy00LjIgNC4yLTQuMiAxMS4xIDAgMTUuM3MxMS4xIDQuMiAxNS4zIDAgNC4yLTExLjEgMC0xNS4zLTExLjEtNC4yLTE1LjMgMHptMTEuNCAxMS41Yy0yLjEgMi4xLTUuNSAyLjEtNy42IDBzLTIuMS01LjUgMC03LjYgNS41LTIuMSA3LjYgMCAyLjEgNS41IDAgNy42ek05OC41IDI3LjNMNzIuNyAxLjVhMy4zMiAzLjMyIDAgMDAtNC43IDBsLTYuNiA2LjZhMy4zMiAzLjMyIDAgMDAwIDQuN2wyNS45IDI1LjljMS4zIDEuMyAzLjQgMS4zIDQuNyAwbDYuNi02LjZjMS4yLTEuMyAxLjItMy40LS4xLTQuOHpNNjEuNCAyMC41Yy0xLjMtMS4zLTMuNS0xLjMtNC44IDBMNDEuOSAzNS4yYy0xLjMgMS4zLTEuMyAzLjUgMCA0LjhsOS4xIDljNi40LTQuNiAxNS40LTQgMjEuMiAxLjdsNy4zLTcuM2MxLjMtMS4zIDEuMy0zLjUgMC00LjhMNjEuNCAyMC41ek00Ny4yIDUyLjlsLTUuNC01LjRjLTEuMi0xLjItMy4zLTEuMi00LjYgMEwxOC4zIDY2LjRjLTEuMiAxLjItMS4yIDMuMyAwIDQuNkwyOSA4MS43YzEuMiAxLjIgMy4zIDEuMiA0LjYgMGwxMi4yLTEyLjJjLTIuNi01LjMtMi4xLTExLjcgMS40LTE2LjZ6Ii8+PC9zdmc+
+manager_defaults:
+  linux:
+    agent:
+      agent_type: otelcol
+      args:
+        - --config=/etc/otelcol/config.yaml
+      auth_token_file: /etc/agent-manager/agent-manager-otelcol.tok
+      default_config_assignments:
+        - otelcol/linux/default/etc/otelcol/config.yaml
+      default_package_assignments:
+        - otelcol/linux/otelcol-contrib_0.112.0_linux_amd64.zip
+      executable: /opt/otelcol/bin/otelcol-contrib
+      instance_id_file: /etc/agent-manager/agent-manager-otelcol.id
+      platform: linux
+      version_command: --version
+    auto_update: true
+    package_dir: /opt/apica/var/agent-manager/packages
+  windows:
+    agent:
+      agent_type: otelcol
+      args:
+        - --config=C:\apica\otelcol\config.yaml
+      auth_token_file: C:\apica\agent-manager-otelcol.tok
+      default_config_assignments:
+        - otelcol/windows/default/apica/otelcol/config.yaml
+      default_package_assignments:
+        - otelcol/windows/otelcol-contrib_0.112.0_windows_amd64.zip
+      executable: C:\apica\otelcol\otelcol-contrib.exe
+      instance_id_file: C:\apica\agent-manager-otelcol.id
+      platform: windows
+      version_command: --version
+    auto_update: true
+    package_dir: C:\apica\packages

@@ -1,0 +1,36 @@
+agent_type_id: telegraf
+description: Telegraf
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MiA0MiI+PHBhdGggZD0iTTQxLjQgMjUuN0wzNy4zIDcuOWMtLjItLjctLjktMS41LTEuNi0xLjdMMTcgLjNjLS43LS4yLTEuOCAwLTIuMy41TDEuMyAxMy4zYy0uNi41LS45IDEuNS0uNyAyLjJMNSAzNC42Yy4yLjcuOSAxLjUgMS42IDEuN2wxNy41IDUuNGMuNy4yIDEuOCAwIDIuMy0uNWwxNC40LTEzLjNjLjUtLjUuOC0xLjUuNi0yLjJ6TTE5LjIgNC40bDEyLjUgMy44Yy41LjIuNS40IDAgLjVsLTYuNiAxLjVjLS41LjEtMS4yLS4xLTEuNS0uNUwxOSA0LjhjLS40LS40LS4yLS42LjItLjR6bTQuNyA4LjdMMjcgMjYuOWMuMS41LS4yLjgtLjcuNmwtMTMuNS00LjJjLS41LS4yLS42LS42LS4yLS45bDEwLjMtOS42Yy41LS4zLjktLjIgMSAuM3pNNC44IDE0LjVsMTEtMTAuMmMuNC0uMyAxLS4zIDEuMyAwbDUuNSA1LjljLjMuNC4zIDEgMCAxLjNsLTExIDEwLjJjLS40LjMtMSAuMy0xLjMgMGwtNS41LTUuOWMtLjQtLjMtLjQtLjkgMC0xLjN6bTIuNyAxNi4yTDQuNiAxOGMtLjEtLjUuMS0uNi40LS4ybDQuNiA0LjljLjMuNC41IDEuMS40IDEuNmwtMiA2LjRjLS4yLjUtLjQuNS0uNSAwem0xNy4xIDYuOGMtLjIuNS0uNy43LTEuMi42TDkuMSAzMy43Yy0uNS0uMi0uNy0uNy0uNi0xLjJsMi40LTcuN2MuMi0uNS43LS43IDEuMi0uNmwxNC4zIDQuNGMuNS4yLjcuNy42IDEuMmwtMi40IDcuN3ptMTEuNi05LjhsLTkuNiA4LjljLS40LjMtLjYuMi0uNC0uM2wyLTYuNGMuMi0uNS43LTEgMS4yLTEuMWw2LjYtMS41Yy41LS4xLjUuMS4yLjR6bTEtMS45bC03LjkgMS44Yy0uNS4xLTEtLjItMS4xLS43bC0zLjMtMTQuNWMtLjEtLjUuMi0xIC43LTEuMWw3LjktMS44Yy41LS4xIDEgLjIgMS4xLjdsMy4zIDE0LjVjLjEuNS0uMiAxLS43IDEuMXoiIGZpbGw9IiM0NDQiLz48L3N2Zz4=
+manager_defaults:
+  linux:
+    agent:
+      agent_type: telegraf
+      args:
+        - --config=/etc/telegraf/telegraf.conf
+      auth_token_file: /etc/agent-manager/agent-manager-telegraf.tok
+      default_config_assignments:
+        - telegraf/linux/default/etc/telegraf/telegraf.conf
+      default_package_assignments:
+        - telegraf/linux/default.zip
+      executable: /opt/telegraf/bin/telegraf
+      instance_id_file: /etc/agent-manager/agent-manager-telegraf.id
+      platform: linux
+      version_command: --version
+    auto_update: true
+    package_dir: /opt/apica/var/agent-manager/packages
+  windows:
+    agent:
+      agent_type: telegraf
+      args:
+        - --config=C:\apica\telegraf\telegraf.conf
+      auth_token_file: C:\apica\agent-manager-telegraf.tok
+      default_config_assignments:
+        - telegraf/windows/default/apica/telegraf/telegraf.conf
+      default_package_assignments:
+        - telegraf/windows/default.zip
+      executable: C:\apica\telegraf\telegraf.exe
+      instance_id_file: C:\apica\agent-manager-telegraf.id
+      platform: windows
+      version_command: --version
+    auto_update: true
+    package_dir: C:\apica\packages

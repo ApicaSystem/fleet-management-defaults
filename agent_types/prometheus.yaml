@@ -1,0 +1,20 @@
+agent_type_id: prometheus
+description: Prometheus
+icon: PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgdmlld0JveD0iMCAwIDMyMCAzMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQo8cGF0aCBkPSJNMTYwIDMwMEMxMzQuOTQgMzAwIDExNC42MSAyODMuMjYgMTE0LjYxIDI2Mi42MUgyMDUuMzhDMjA1LjM5IDI4My4yNSAxODUuMDcgMzAwIDE2MCAzMDBaIiBmaWxsPSJibGFjayIvPg0KPHBhdGggZD0iTTIzNC45NiAyNTAuMjNIODUuMDNWMjIzLjA0SDIzNC45N1YyNTAuMjNIMjM0Ljk2WiIgZmlsbD0iYmxhY2siLz4NCjxwYXRoIGQ9Ik0yMzQuNDMgMjA5SDg1LjQ1OTlDODQuOTU5OSAyMDguNDMgODQuNDU5OSAyMDcuODcgODMuOTc5OSAyMDcuMjlDNzMuOTM3MSAxOTYuMjI1IDY2LjI4NDMgMTgzLjIwNyA2MS40OTk5IDE2OS4wNUM2MS40Mzk5IDE2OC43MiA4MC4xMDk5IDE3Mi44NiA5My4zNDk5IDE3NS44NEM5My4zNDk5IDE3NS44NCAxMDAuMTYgMTc3LjQyIDExMC4xMiAxNzkuMjNDMTAwLjQ3MSAxNjguMTE3IDk1LjA3MTkgMTUzLjk0NiA5NC44Nzk5IDEzOS4yM0M5NC44Nzk5IDEwNy4yMyAxMTkuNCA3OS4zMSAxMTAuNTYgNTYuNzNDMTE5LjE3IDU3LjQzIDEyOC4zOCA3NC45IDEyOSAxMDIuMjJDMTM3LjcyOCA4Ny4wNDUzIDE0Mi4yMTggNjkuODA0MiAxNDIgNTIuM0MxNDIgMzcuNjMgMTUxLjY2IDIwLjYgMTYxLjMzIDIwLjAxQzE1Mi43MSAzNC4yMSAxNjMuNTYgNDYuMzkgMTczLjIxIDc2LjU5QzE3Ni44MyA4Ny45MyAxNzYuMzcgMTA3LjAzIDE3OS4xNiAxMTkuMTNDMTgwLjA5IDkzLjk4IDE4NC40MSA1Ny4yOSAyMDAuMzYgNDQuNjNDMTkzLjM2IDYwLjYzIDIwMS4zNiA4MC41NCAyMDYuOTMgOTAuMTRDMjE2LjYxNyAxMDQuNzY3IDIyMS42MTMgMTIyIDIyMS4yNSAxMzkuNTRDMjIxLjE5OSAxNTQuMTQ1IDIxNS45NjkgMTY4LjI1OSAyMDYuNDkgMTc5LjM3QzIxNy4wMiAxNzcuMzcgMjI0LjMgMTc1LjYxIDIyNC4zIDE3NS42MUwyNTguNTEgMTY4Ljk0QzI1My44NjkgMTg0LjA1NiAyNDUuNjAyIDE5Ny44MDkgMjM0LjQzIDIwOVoiIGZpbGw9ImJsYWNrIi8+DQo8L3N2Zz4NCg==
+manager_defaults:
+  linux:
+    agent:
+      agent_type: prometheus
+      args:
+        - --config.file=/etc/prometheus/prometheus.yml
+      auth_token_file: /etc/agent-manager/agent-manager-prometheus.tok
+      default_config_assignments:
+        - prometheus/linux/default/etc/prometheus/prometheus.yml
+      default_package_assignments:
+        - prometheus/linux/prometheus_3.0.0-beta.0_linux_amd64.zip
+      executable: /opt/prometheus/bin/prometheus
+      instance_id_file: /etc/agent-manager/agent-manager-prometheus.id
+      platform: linux
+      version_command: --version
+    auto_update: true
+    package_dir: /opt/apica/var/agent-manager/packages

@@ -1,0 +1,233 @@
+---
+rules:
+# General JVM status
+  - bean: "java.lang:type=GarbageCollector,name=G1 Old Generation"
+    mapping:
+      CollectionCount:
+        metric: gc_collection_count_g1_old_gen
+      CollectionTime:
+        metric: gc_collection_time_g1_old_gen
+
+  - bean: "java.lang:type=GarbageCollector,name=G1 Young Generation"
+    mapping:
+      CollectionCount:
+        metric: gc_collection_count_g1_young_gen
+      CollectionTime:
+        metric: gc_collection_time_g1_young_gen
+
+  - bean: "java.lang:type=OperatingSystem"
+    mapping:
+      ProcessCpuTime:
+        metric: process_cpu_time
+  - bean: "java.lang:type=Memory"
+    mapping:
+      HeapMemoryUsage.max:
+        metric: heap_memory_usage_max
+      HeapMemoryUsage.used:
+        metric: heap_memory_usage_used
+      NonHeapMemoryUsage.max:
+        metric: non_heap_memory_usage_max
+      NonHeapMemoryUsage.used:
+        metric: non_heap_memory_usage_used
+  - bean: "java.lang:type=Threading"
+    mapping:
+      ThreadCount:
+        metric: thread_count
+  - bean: "java.lang:type=Runtime"
+    mapping:
+      Uptime:
+        metric: jvm_uptime
+      StartTime:
+        metric: jvm_start_time
+      InputArguments:
+        metric: jvm_input_arguments
+  - bean: "java.lang:type=MemoryPool,name=CodeHeap 'non-nmethods'"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_codeheap_non_nmethods_nonheap
+      Usage.used:
+        metric: memory_pool_used_codeheap_non_nmethods_nonheap
+  - bean: "java.lang:type=MemoryPool,name=CodeHeap 'non-profiled nmethods'"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_codeheap_non_profiled_nmethods_nonheap
+      Usage.used:
+        metric: memory_pool_used_codeheap_non_profiled_nmethods_nonheap
+  - bean: "java.lang:type=MemoryPool,name=CodeHeap 'profiled nmethods'"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_codeheap_profiled_nmethods_nonheap
+      Usage.used:
+        metric: memory_pool_used_codeheap_profiled_nmethods_nonheap
+
+  - bean: "java.lang:type=MemoryPool,name=Compressed Class Space"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_compressed_class_space_nonheap
+      Usage.used:
+        metric: memory_pool_used_compressed_class_space_nonheap
+
+  - bean: "java.lang:type=MemoryPool,name=G1 Eden Space"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_g1_eden_space_heap
+      Usage.used:
+        metric: memory_pool_used_g1_eden_space_heap
+
+  - bean: "java.lang:type=MemoryPool,name=G1 Old Gen"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_g1_old_gen_heap
+      Usage.used:
+        metric: memory_pool_used_g1_old_gen_heap
+
+  - bean: "java.lang:type=MemoryPool,name=G1 Survivor Space"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_g1_survivor_space_heap
+      Usage.used:
+        metric: memory_pool_used_g1_survivor_space_heap
+
+  - bean: "java.lang:type=MemoryPool,name=Metaspace"
+    mapping:
+      Usage.max:
+        metric: memory_pool_max_metaspace_nonheap
+      Usage.used:
+        metric: memory_pool_used_metaspace_nonheap
+
+  - bean: "java.lang:type=OperatingSystem"
+    mapping:
+      OpenFileDescriptorCount:
+        metric: open_fd_count
+      MaxFileDescriptorCount:
+        metric: max_fd_count
+# General Atom status
+  - bean: "com.boomi.container.services:type=ResourceManager"
+    mapping:
+      OutOfMemory:
+        metric: out_of_memory
+      LowMemory:
+        metric: low_memory
+  - bean: "com.boomi.container.services:type=ContainerController"
+    mapping:
+      HeadCloudlet:
+        metric: head_cloudlet
+      Restarting:
+        metric: restarting
+  - bean: "com.boomi.container.services:type=Config"
+    mapping:
+      ContainerAccountCount:
+        metric: container_account_count
+      Status:
+        metric: atom_status
+  - bean: "com.boomi.container.services:type=Scheduler"
+    mapping:
+      ScheduleCount:
+        metric: schedule_count
+
+# Atom message queue service status
+  - bean: "com.boomi.container.services:type=PluginService,plugin=QUEUE_SERVER"
+    mapping:
+      Port:
+        metric: port
+      maximumDiskUsage:
+        metric: maximum_disk_usage
+      maximumMemoryAllocated:
+        metric: maximum_memory_allocated
+      maximumMemoryAllocatedToQueue:
+        metric: maximum_memory_allocated_to_queue
+      maximumThreadNumber:
+        metric: maximum_thread_number
+      QueueCount:
+        metric: queue_count
+        type: Counter
+  - bean: "com.boomi.container.services:type=MessageQueue,queueId=event"
+    mapping:
+      UploadStats.deliveredMessageCount:
+        metric: delivered_message_count
+      UploadStats.connectFailureCount:
+        metric: connect_failure_count
+  - bean: "org.apache.activemq:type=Broker,brokerName=atomq"
+    mapping:
+      JobSchedulerStorePercentUsage:
+        metric: job_scheduler_store_percent_usage
+      MemoryPercentUsage:
+        metric: memory_percent_usage
+      StorePercentUsage:
+        metric: store_percent_usage
+      TempPercentUsage:
+        metric: temp_percent_usage
+
+# Execution properties status
+  - bean: "com.boomi.container.services:type=ExecutionManager"
+    mapping:
+      AverageExecutionTime:
+        metric: average_execution_time
+      AverageExecutionQueueTime:
+        metric: average_execution_queue_time
+      MaxQueuedExecutions:
+        metric: max_queued_executions
+      MaxRunningExecutions:
+        metric: max_running_executions
+      QueuedExecutionTimeout:
+        metric: queued_execution_timeout
+      QueuedExecutionCount:
+        metric: queued_execution_count
+      QueuedExecutionEstimatedCount:
+        metric: queued_execution_estimated_count
+      LocalExecutionCount:
+        metric: local_execution_count
+      RunningExecutionEstimatedCount:
+        metric: running_execution_estimated_count
+      RunningExecutionCount:
+        metric: running_execution_Count
+      TotalExecutionCount:
+        metric: total_execution_count
+
+  - bean: "com.boomi.container.services:type=ExecutionManager,Name=Stats"
+    mapping:
+      Stats.discardedExecutionCount:
+        metric: discarded_execution_count
+
+  - bean: "com.boomi.container.services:type=MultiProcessExecutionForker"
+    mapping:
+      LocalRunningWorkersCount:
+        metric: local_running_workers_count
+      LocalDirectExecutionCount:
+        metric: local_direct_execution_count
+      LocalTotalDirectExecutionCount:
+        metric: local_total_direct_execution_count
+      RunningWorkersCount:
+        metric: running_workers_count
+
+  - bean: "com.boomi.container.services:type=ConnectorManager"
+    mapping:
+      RunningBrowsersCount:
+        metric: running_browsers_count
+      LocalRunningBrowsersCount:
+        metric: local_running_browsers_count
+
+  - bean: "com.boomi.container.services:type=TaskManager"
+    mapping:
+      TaskExecutionCount:
+        metric: task_execution_count
+
+  # Incoming messaging
+  - bean: "com.boomi.container.services:type=MessagePollerThread"
+    mapping:
+      DownloadStats.connectFailureCount:
+        metric: download_stats_connect_failure_count
+      DownloadStats.deliveredMessageCount:
+        metric: download_stats_delivered_message_count
+      PendingSyncMessageCount:
+        metric: pending_sync_message_count
+      PendingAsyncMessageCount:
+        metric: pending_async_message_count
+
+# Jetty properties
+  - bean: "com.boomi.jetty:type=queuedthreadpool,id=0"
+    mapping:
+      threads:
+        metric: threads
+      queueSize:
+        metric: queue_size

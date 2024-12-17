@@ -1,0 +1,36 @@
+agent_type_id: fluent-bit
+description: Fluent-bit
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTMuMiAyMC41Yy0uOS0uMS0xLjktLjItMi4xLS4zLS4xIDAgMCAwIC4xLS4xLjYtLjIgMS42LS43IDIuMy0xLjEgMS43LTEgMy4yLTIuMyA0LjQtMy45LjMtLjQuMy0uNS4zLS41cy0uMy0uMi0uNi0uM2MtMS45LTEuMy00LjItMy45LTYtNi44QzEuMSA2LjguNCA1LjMuNCA1LjJ2LS4xczAtLjEtLjEtLjJDMCA0LjMtLjEgNCAuMSAzLjhjLjEtLjIuMi0uMy4zLS4zLjEgMCAxIC4zIDEuNC41LjIuMS4zLjIuNC4yLjIgMCAxLjYuOCAyLjQgMS4zQzUuNyA2LjIgNi45IDcgOCA3LjhjLjcuNiAyLjEgMS44IDMuMSAyLjdsLjUuNS4yLS4xYy41LS4zIDEtLjggMS43LTEuOS43LTEuMSAxLjEtMS40IDEuOC0xLjcuMi0uMS40LS4xLjgtLjEuNiAwIDEgMCAxLjguMy42LjIgMSAuMiAxLjQuMi4xIDAgLjYtLjEgMS0uMiAxLjItLjIgMS45LS4zIDIuOC0uMy43IDAgLjggMCAuOS4xLjEuMSAwIC4xLS4yLjItMi4xLjMtMy40LjYtNC4zLjktLjYuMi0xLjIuNy0xLjcgMS40LS4xLjItLjggMS4yLTEuNSAyLjRzLTEuNCAyLjMtMS41IDIuNWMtMS4yIDEuOC0yLjkgMy4zLTQuNiA0LjItMS41LjgtMy4zIDEuMy01LjEgMS41LS40LjEtMS42LjEtMS45LjF6TTE3IDljLjItLjIuMS0uNi0uMi0uNi0uMiAwLS4zLjEtLjMuMy0uMS4zLjMuNS41LjN6IiBmaWxsPSIjNDQ0Ii8+PC9zdmc+
+manager_defaults:
+  linux:
+    agent:
+      agent_type: fluent-bit
+      args:
+        - --config=/etc/fluent-bit/fluent-bit.conf
+      auth_token_file: /etc/agent-manager/agent-manager-fluent-bit.tok
+      default_config_assignments:
+        - fluent-bit/linux/default/etc/fluent-bit/fluent-bit.conf
+        - fluent-bit/linux/default/etc/fluent-bit/parsers.conf
+        - fluent-bit/linux/default/etc/fluent-bit/plugins.conf
+      executable: /opt/fluent-bit/bin/fluent-bit
+      instance_id_file: /etc/agent-manager/agent-manager-fluent-bit.id
+      platform: linux
+      version_command: --version
+    auto_update: true
+    package_dir: /opt/apica/var/agent-manager/packages
+  windows:
+    agent:
+      agent_type: fluent-bit
+      args:
+        - --config=C:\apica\fluent-bit\fluent-bit.conf
+      auth_token_file: C:\apica\agent-manager-fluent-bit.tok
+      default_config_assignments:
+        - fluent-bit/windows/default/apica/fluent-bit/fluent-bit.conf
+        - fluent-bit/windows/default/apica/fluent-bit/parsers.conf
+        - fluent-bit/windows/default/apica/fluent-bit/plugins.conf
+      executable: C:\apica\fluent-bit\fluent-bit.exe
+      instance_id_file: C:\apica\agent-manager-fluent-bit.id
+      platform: windows
+      version_command: --version
+    auto_update: true
+    package_dir: C:\apica\packages

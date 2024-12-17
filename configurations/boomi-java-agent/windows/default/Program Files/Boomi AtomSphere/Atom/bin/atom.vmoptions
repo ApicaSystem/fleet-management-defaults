@@ -1,0 +1,29 @@
+-Xmx512m
+-Dsun.net.client.defaultConnectTimeout=120000
+-Dsun.net.client.defaultReadTimeout=120000
+-Dsun.net.http.retryPost=false
+-Dcom.boomi.container.securityCompatibility=2021.01
+-javaagent:{{$ .Agent.data.javaagent }}
+-Dcom.sun.management.jmxremote.authenticate=false
+-Dcom.sun.management.jmxremote.ssl=false
+-Dcom.sun.management.jmxremote.port=5002
+-Dotel.jmx.config={{$ .Agent.data.otel.jmx.config }}
+-Dotel.instrumentation.runtime-metrics.enabled=true
+-Dotel.metrics.exporter=otlp
+-Dotel.logs.exporter=otlp
+-Dotel.exporter.otlp.endpoint=http://localhost:4317
+-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317
+-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317
+-Dotel.exporter.otlp.metrics.endpoint=http://localhost:4317
+-Dotel.instrumentation.runtime-metrics.enabled=true
+-Dotel.jmx.target.system=jetty,jvm,activemq
+-Dotel.service-name={{$ .Agent.host_name }}
+-Dotel.javaagent.logging=application
+-Dotel.instrumentation.methods.enabled=true
+-Dotel.propagators=tracecontext,baggage,b3,b3multi,jaeger,xray,ottrace
+-Dotel.instrumentation.experimental.span-suppression-strategy=none
+-Dotel.instrumentation.servlet.experimental.capture-request-parameters=true
+-Dotel.instrumentation.http.server.capture-response-headers=true
+-Dotel.instrumentation.http.client.capture-response-headers=true
+-Dotel.instrumentation.http.client.capture-request-headers=true
+-Dotel.instrumentation.methods.include="com.boomi.container.base.CustomSendConnectorAction[invoke];com.boomi.connector.actions.SendAction[send];com.boomi.connector.server.http.LiveContextHandler[handle];com.boomi.process.ProcessExecution[call];com.boomi.execution.ExecutionTask[executeNested,executeNestedSynchronous];com.boomi.transform.function.FunctionImpl[execute,executeStep];com.boomi.transform.function.FunctionExecutorImpl[executeFunctionExecution];com.boomi.container.core.StatusReporter[send];com.boomi.connector.http.HttpSend[send];com.boomi.connector.http.HttpGet[get];com.boomi.common.http.rest.RestOperation[executeUpdate];"
