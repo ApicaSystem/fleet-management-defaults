@@ -1,8 +1,4 @@
 receivers:
-  windowseventlog/application:
-    channel: application
-  windowseventlog/system:
-    channel: system
   otlp:
     protocols:
       grpc:
@@ -13,41 +9,7 @@ receivers:
         - job_name: 'prom-metrics-collector'
           scrape_interval: 60s
           static_configs:
-            - targets: ['0.0.0.0:9464']
-  hostmetrics:
-    collection_interval: 60s
-    scrapers:
-      cpu:
-        metrics:
-          system.cpu.utilization:
-            enabled: true
-      memory:
-        metrics:
-          system.memory.usage:
-            enabled: true
-          system.memory.limit:
-            enabled: true
-          system.memory.utilization:
-            enabled: true
-      disk:
-      network:
-      load:
-        metrics:
-          system.cpu.load_average.1m:
-            enabled: true
-      filesystem:
-        metrics:
-        # currently commented out as it gathers no metrics on windows
-        # system.filesystem.inodes.usage:
-          # enabled: true
-          system.filesystem.utilization:
-            enabled: true
-      paging:
-      # currently commented out as it gathers no metrics on windows
-      # metrics:
-        # system.paging.faults:
-          # enabled: true
-      processes:
+            - targets: ['0.0.0.0:9466']
 
   windowsperfcounters:
     metrics:
@@ -264,6 +226,8 @@ receivers:
       io.other.bytes.sec:
         unit: Bytes
         gauge:
+      dra.sync.requests.successful:
+        gauge:
 
     perfcounters:
       - object: System
@@ -275,8 +239,8 @@ receivers:
             metric: system.processor.queue.length
           - name: "Context Switches/sec"
             metric: system.context.switches.sec
-          # - name: "System Calls/sec"
-          #   metric: system.system.calls.sec
+          - name: "System Calls/sec"
+            metric: system.system.calls.sec
           - name: "File Control Operations/sec"
             metric: system.file.control.operations.sec
           - name: "File Data Operations/sec"
@@ -293,8 +257,6 @@ receivers:
       - object: "Processor Information"
         instances: "*"
         counters:
-          # - name: "% Processor Utility"
-          #   metric: processor.utility
           - name: "% Processor Time"
             metric: processor.time
           - name: "% Idle Time"
@@ -334,10 +296,6 @@ receivers:
             metric: memory.standby.cache.normal.priority.bytes
           - name: "Standby Cache Reserve Bytes"
             metric: memory.standby.cache.reserve.bytes
-          # - name: "% Usage"
-          #   metric: memory.paging.file.usage
-          # - name: "% Usage Peak"
-          #   metric: memory.paging.file.usage.peak
       - object: "LogicalDisk"
         instances: "*"
         counters:
@@ -432,14 +390,8 @@ receivers:
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
       - object: Process
-        instances: "atom"
+        instances: "*"
         counters:
-#          - name: "% Processor Time"
-#            metric: processor.time
-#          - name: "% User Time"
-#            metric: processor.user.time
-#          - name: "% Privileged Time"
-#            metric: processor.privileged.time
           - name: "Virtual Bytes Peak"
             metric: virtual.bytes.peak
           - name: "Virtual Bytes"
@@ -478,17 +430,11 @@ receivers:
             metric: io.data.bytes.sec
           - name: "IO Other Bytes/sec"
             metric: io.other.bytes.sec
-
 processors:
   resource/os:
     attributes:
       - key: ostype
-        value: "{{$ .Agent.platform }}"
-        action: upsert
-  resource/host:
-    attributes:
-      - key: host.name
-        value: "{{$ .Agent.host_name }}"
+        value: "windows"
         action: upsert
 
 exporters:
@@ -497,15 +443,28 @@ exporters:
   prometheus:
     endpoint: 0.0.0.0:9464
 
+  prometheusremotewrite/apicametrics:
+    endpoint: "ENV_URL_FROM_FLEET"
+    tls:
+      insecure: false
+      insecure_skip_verify: true
+      ostype: "windows"
+    resource_to_telemetry_conversion:
+      enabled: true # Convert resource attributes to metric labels
+
 extensions:
 
 service:
   extensions:
   pipelines:
     metrics:
-      receivers: [otlp, hostmetrics]
-      processors: [resource/os, resource/host]
+      receivers: [otlp]
+      processors: [resource/os]
       exporters: [prometheus]
     metrics/winperf:
       receivers: [windowsperfcounters]
       exporters: [prometheus]
+    metrics/out:
+      receivers: [prometheus]
+      processors: [resource/os]
+      exporters: [prometheusremotewrite/apicametrics]
