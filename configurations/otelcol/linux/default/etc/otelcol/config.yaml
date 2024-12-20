@@ -43,21 +43,23 @@ processors:
       - key: ostype
         value: "{{$ .Agent.platform }}"
         action: upsert
-  resource/host:
-    attributes:
-      - key: host.name
-        value: "{{$ .Agent.host_name }}"
-        action: upsert
 exporters:
   debug:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:9464
+  prometheusremotewrite/apicametrics:
+    endpoint: "ENV_URL_DYNMAIC_FROM_FLEET"
+    tls:
+      insecure: false
+      insecure_skip_verify: true
+    resource_to_telemetry_conversion:
+      enabled: true # Convert resource attributes to metric labels
 extensions:
 service:
   extensions:
   pipelines:
     metrics:
       receivers: [otlp, hostmetrics]
-      processors: [resource/os, resource/host]
+      processors: [resource/os]
       exporters: [prometheus]
