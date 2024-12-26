@@ -32,7 +32,7 @@ manager_defaults:
         - fluent-bit/windows/default/apica/fluent-bit/conf/plugins.conf
       default_package_assignments:
         - fluent-bit/windows/fluent-bit_3.2.3_windows_amd64.zip
-      executable: C:\apica\fluent-bit\fluent-bit.exe
+      executable: C:\apica\fluent-bit\bin\fluent-bit.exe
       instance_id_file: C:\apica\agent-manager-fluent-bit.id
       platform: windows
       version_command: --version
