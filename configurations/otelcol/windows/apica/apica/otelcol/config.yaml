@@ -521,7 +521,7 @@ exporters:
       insecure_skip_verify: true
     external_labels:
       hostname: "{{$ .Agent.host_name }}"
-      ostype: "{{$ .Agent.os_type }}"
+      ostype: "{{$ .Agent.platform }}"
     resource_to_telemetry_conversion:
       enabled: true # Convert resource attributes to metric labels
 

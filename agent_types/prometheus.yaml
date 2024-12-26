@@ -11,10 +11,26 @@ manager_defaults:
       default_config_assignments:
         - prometheus/linux/default/etc/prometheus/prometheus.yml
       default_package_assignments:
-        - prometheus/linux/prometheus_3.0.0-beta.0_linux_amd64.zip
+        - prometheus/linux/prometheus_3.0.1_linux_amd64.zip
       executable: /opt/prometheus/bin/prometheus
       instance_id_file: /etc/agent-manager/agent-manager-prometheus.id
       platform: linux
       version_command: --version
     auto_update: true
     package_dir: /opt/apica/var/agent-manager/packages
+  windows:
+    agent:
+      agent_type: prometheus
+      args:
+        - --config.file=C:\apica\prometheus\prometheus.yml
+      auth_token_file: C:\apica\agent-manager-prometheus.tok
+      default_config_assignments:
+        - prometheus/windows/default/apica/prometheus/prometheus.yml
+      default_package_assignments:
+        - prometheus/windows/prometheus_3.0.1_windows_amd64.zip
+      executable: C:\apica\prometheus\prometheus.exe
+      instance_id_file: C:\apica\agent-manager-prometheus.id
+      platform: windows
+      version_command: --version
+    auto_update: true
+    package_dir: C:\apica\packages

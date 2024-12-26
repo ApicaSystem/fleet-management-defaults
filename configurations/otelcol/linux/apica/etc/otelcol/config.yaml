@@ -109,7 +109,7 @@ exporters:
       customer: "{{$ .Agent.data.customer_id }}"
       runtime: "{{$ .Agent.data.runtime_id }}"
       hostname: "{{$ .Agent.host_name }}"
-      ostype: "{{$ .Agent.os_type }}"
+      ostype: "{{$ .Agent.platform }}"
     resource_to_telemetry_conversion:
       enabled: true # Convert resource attributes to metric labels
 extensions:
