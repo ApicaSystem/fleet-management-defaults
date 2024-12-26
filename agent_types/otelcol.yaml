@@ -34,3 +34,8 @@ manager_defaults:
       version_command: --version
     auto_update: true
     package_dir: C:\apica\packages
+  kubernetes:
+    agent:
+      agent_type: otelcol
+      platform: kunernetes
+    auto_update: true
