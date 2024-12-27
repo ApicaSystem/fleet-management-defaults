@@ -37,5 +37,7 @@ manager_defaults:
   kubernetes:
     agent:
       agent_type: otelcol
-      platform: kunernetes
+      platform: kubernetes
+      default_config_assignments:
+        - otelcol/kubernetes/default/default/fleet-otelcol
     auto_update: true
