@@ -12,11 +12,9 @@ metadata:
   name: fleet-otelcol-test
   namespace: default
 spec:
-  args:
-    feature-gates: -component.UseLocalHostAsDefaultHost
   config:
     exporters:
-      logging:
+      debug:
         verbosity: detailed
     extensions:
       health_check: {}
@@ -61,7 +59,7 @@ spec:
       pipelines:
         metrics:
           exporters:
-            - logging
+            - debug
           processors:
             - batch
           receivers:
@@ -69,7 +67,7 @@ spec:
             - prometheus
         traces:
           exporters:
-            - logging
+            - debug
           processors:
             - batch
           receivers:
