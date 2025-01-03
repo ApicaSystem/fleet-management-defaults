@@ -43,37 +43,16 @@ processors:
       - key: ostype
         value: "linux"
         action: upsert
-  resource/apicalogs:
-    attributes:
-      - key: namespace
-        action: insert
-        value: "{{$ .Agent.data.namespace }}"
-      - key: application
-        action: insert
-        value: "{{$ .Agent.data.application }}"
 exporters:
   debug:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:9464
-  otlphttp/apicalogs:
-    logs_endpoint: "{{$ .Agent.secret.apicalogs.endpoint }}"
-    encoding: json
-    compression: gzip
-    tls:
-      insecure: false
-      insecure_skip_verify: true
-    headers:
-      Authorization: "Bearer {{$ .Agent.secret.apicalogs.token }}"
   prometheusremotewrite/apicametrics:
     endpoint: "{{$ .Agent.secret.apicametrics.endpoint }}"
     tls:
       insecure: false
       insecure_skip_verify: true
-    external_labels:
-      customer: "{{$ .Agent.data.customer_id }}"
-      hostname: "{{$ .Agent.host_name }}"
-      ostype: "{{$ .Agent.platform }}"
     resource_to_telemetry_conversion:
       enabled: true # Convert resource attributes to metric labels
 extensions:
@@ -87,7 +66,3 @@ service:
       receivers: [prometheus]
       processors: [resource/os]
       exporters: [prometheusremotewrite/apicametrics]
-    logs/out:
-      receivers: [filelog/container]
-      processors: [resource/os, resource/apicalogs]
-      exporters: [otlphttp/apicalogs]
