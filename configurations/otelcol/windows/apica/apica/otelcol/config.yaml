@@ -1,8 +1,4 @@
 receivers:
-  windowseventlog/application:
-    channel: application
-  windowseventlog/system:
-    channel: system
   otlp:
     protocols:
       grpc:
@@ -14,40 +10,6 @@ receivers:
           scrape_interval: 60s
           static_configs:
             - targets: ['0.0.0.0:9464']
-  hostmetrics:
-    collection_interval: 60s
-    scrapers:
-      cpu:
-        metrics:
-          system.cpu.utilization:
-            enabled: true
-      memory:
-        metrics:
-          system.memory.usage:
-            enabled: true
-          system.memory.limit:
-            enabled: true
-          system.memory.utilization:
-            enabled: true
-      disk:
-      network:
-      load:
-        metrics:
-          system.cpu.load_average.1m:
-            enabled: true
-      filesystem:
-        metrics:
-        # currently commented out as it gathers no metrics on windows
-        # system.filesystem.inodes.usage:
-          # enabled: true
-          system.filesystem.utilization:
-            enabled: true
-      paging:
-      # currently commented out as it gathers no metrics on windows
-      # metrics:
-        # system.paging.faults:
-          # enabled: true
-      processes:
 
   windowsperfcounters:
     metrics:
@@ -293,8 +255,6 @@ receivers:
       - object: "Processor Information"
         instances: "*"
         counters:
-          # - name: "% Processor Utility"
-          #   metric: processor.utility
           - name: "% Processor Time"
             metric: processor.time
           - name: "% Idle Time"
@@ -334,10 +294,6 @@ receivers:
             metric: memory.standby.cache.normal.priority.bytes
           - name: "Standby Cache Reserve Bytes"
             metric: memory.standby.cache.reserve.bytes
-          # - name: "% Usage"
-          #   metric: memory.paging.file.usage
-          # - name: "% Usage Peak"
-          #   metric: memory.paging.file.usage.peak
       - object: "LogicalDisk"
         instances: "*"
         counters:
@@ -431,88 +387,19 @@ receivers:
             metric: network.interface.output.queue.length
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
-      - object: Process
-        instances: "atom"
-        counters:
-#          - name: "% Processor Time"
-#            metric: processor.time
-#          - name: "% User Time"
-#            metric: processor.user.time
-#          - name: "% Privileged Time"
-#            metric: processor.privileged.time
-          - name: "Virtual Bytes Peak"
-            metric: virtual.bytes.peak
-          - name: "Virtual Bytes"
-            metric: virtual.bytes
-          - name: "Page Faults/sec"
-            metric: page.faults.sec
-          - name: "Page File Bytes Peak"
-            metric: page.file.bytes.peak
-          - name: "Page File Bytes"
-            metric: page.file.bytes
-          - name: "Private Bytes"
-            metric: private.bytes
-          - name: "Thread Count"
-            metric: thread.count
-          - name: "Elapsed Time"
-            metric: elapsed.time
-          - name: "Pool Paged Bytes"
-            metric: pool.paged.bytes
-          - name: "Pool Nonpaged Bytes"
-            metric: pool.nonpaged.bytes
-          - name: "Handle Count"
-            metric: handle.count
-          - name: "IO Read Operations/sec"
-            metric: io.read.operations.sec
-          - name: "IO Write Operations/sec"
-            metric: io.write.operations.sec
-          - name: "IO Data Operations/sec"
-            metric: io.data.operations.sec
-          - name: "IO Other Operations/sec"
-            metric: io.other.operations.sec
-          - name: "IO Read Bytes/sec"
-            metric: io.read.bytes.sec
-          - name: "IO Write Bytes/sec"
-            metric: io.write.bytes.sec
-          - name: "IO Data Bytes/sec"
-            metric: io.data.bytes.sec
-          - name: "IO Other Bytes/sec"
-            metric: io.other.bytes.sec
-
+            
 processors:
   resource/os:
     attributes:
       - key: ostype
         value: "windows"
         action: upsert
-  resource/boomi:
-    attributes:
-      - key: host.name
-        value: "{{$ .Agent.host_name }}"
-        action: upsert
-  resource/apicalogs:
-    attributes:
-      - key: namespace
-        action: insert
-        value: "otlplogs"
-      - key: application
-        action: insert
-        value: "windowsLogs"
 
 exporters:
   debug:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:9464
-  otlphttp/apicalogs:
-    logs_endpoint: "{{$ .Agent.secret.apicalogs.endpoint }}"
-    encoding: json
-    compression: gzip
-    tls:
-      insecure: false
-      insecure_skip_verify: true
-    headers:
-      Authorization: "Bearer {{$ .Agent.secret.apicalogs.token }}"
 
   prometheusremotewrite/apicametrics:
     endpoint: "{{$ .Agent.secret.apicametrics.endpoint }}"
@@ -531,17 +418,13 @@ service:
   extensions:
   pipelines:
     metrics:
-      receivers: [otlp, hostmetrics]
-      processors: [resource/os, resource/boomi]
+      receivers: [otlp]
+      processors: [resource/os]
       exporters: [prometheus]
     metrics/winperf:
       receivers: [windowsperfcounters]
       exporters: [prometheus]
     metrics/out:
       receivers: [prometheus]
-      processors: [resource/os, resource/boomi]
+      processors: [resource/os]
       exporters: [prometheusremotewrite/apicametrics]
-    logs/out:
-      receivers: [windowseventlog/application,windowseventlog/system]
-      processors: [resource/os,resource/apicalogs]
-      exporters: [otlphttp/apicalogs]
