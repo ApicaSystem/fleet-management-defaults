@@ -37,46 +37,11 @@ receivers:
           scrape_interval: 60s
           static_configs:
             - targets: ['0.0.0.0:9464']
-  filelog/container:
-    include: [ '{{$ .Agent.data.apicalogs.container.include }}' ]
-    exclude_older_than: 4h
-    operators:
-      - type: regex_parser
-        regex: '^(?<timestamp>[^ ]* [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*) (?<loglevel>[^ ]*)[ ]*\[(?<javaprog>[^ ]*) (?<method>[^ ]*)\] (?<msg>.*)$'
-        timestamp:
-          parse_from: attributes.timestamp
-          layout: '%b %g, %Y %l:%M:%S %p %Z'
-        severity:
-          parse_from: attributes.loglevel
-          mapping:
-            info: 
-              - INFO
-              - FINE
-            warn:
-              - WARN
-              - WARNING
-            error:
-              - ERROR
-              - FATAL
-              - EMERGENCY
-    retry_on_failure:
-      enabled: true
 processors:
   resource/os:
     attributes:
       - key: ostype
         value: "linux"
-        action: upsert
-  resource/boomi:
-    attributes:
-      - key: host.name
-        value: "{{$ .Agent.host_name }}"
-        action: upsert
-      - key: customer.id
-        value: "{{$ .Agent.data.customer_id }}"
-        action: upsert
-      - key: runtime.id
-        value: "{{$ .Agent.data.runtime_id }}"
         action: upsert
   resource/apicalogs:
     attributes:
@@ -107,7 +72,6 @@ exporters:
       insecure_skip_verify: true
     external_labels:
       customer: "{{$ .Agent.data.customer_id }}"
-      runtime: "{{$ .Agent.data.runtime_id }}"
       hostname: "{{$ .Agent.host_name }}"
       ostype: "{{$ .Agent.platform }}"
     resource_to_telemetry_conversion:
@@ -121,9 +85,9 @@ service:
       exporters: [prometheus]
     metrics/out:
       receivers: [prometheus]
-      processors: [resource/os, resource/boomi]
+      processors: [resource/os]
       exporters: [prometheusremotewrite/apicametrics]
     logs/out:
       receivers: [filelog/container]
-      processors: [resource/os, resource/boomi, resource/apicalogs]
+      processors: [resource/os, resource/apicalogs]
       exporters: [otlphttp/apicalogs]
