@@ -6,11 +6,10 @@ receivers:
   prometheus:
     config:
       scrape_configs:
-        - job_name: 'prom-metrics-collector'
+        - job_name: "prom-metrics-collector"
           scrape_interval: 60s
           static_configs:
-            - targets: ['0.0.0.0:9464']
-
+            - targets: ["0.0.0.0:9464"]
   windowsperfcounters:
     metrics:
       system.up.time:
@@ -226,7 +225,6 @@ receivers:
       io.other.bytes.sec:
         unit: Bytes
         gauge:
-
     perfcounters:
       - object: System
         instances: "*"
@@ -385,7 +383,6 @@ receivers:
             metric: network.interface.output.queue.length
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
-
 processors:
   resource/os:
     attributes:
@@ -397,22 +394,16 @@ processors:
       - key: host.name
         value: "{{$ .Agent.host_name }}"
         action: upsert
-
 exporters:
   debug:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:9464
-
 extensions:
-
 service:
   extensions:
   pipelines:
     metrics:
-      receivers: [otlp, hostmetrics]
-      processors: [resource/os, resource/host]
-      exporters: [prometheus]
-    metrics/winperf:
       receivers: [windowsperfcounters]
-      exporters: [prometheus]
+      processors: [resource/os, resource/host]
+      exporters: [debug]

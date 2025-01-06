@@ -11,7 +11,7 @@ manager_defaults:
       default_config_assignments:
         - otelcol/linux/default/etc/otelcol/config.yaml
       default_package_assignments:
-        - otelcol/linux/otelcol-contrib_0.112.0_linux_amd64.zip
+        - otelcol/linux/otelcol-contrib_0.116.1_linux_amd64.zip
       executable: /opt/otelcol/bin/otelcol-contrib
       instance_id_file: /etc/agent-manager/agent-manager-otelcol.id
       platform: linux
@@ -27,7 +27,7 @@ manager_defaults:
       default_config_assignments:
         - otelcol/windows/default/apica/otelcol/config.yaml
       default_package_assignments:
-        - otelcol/windows/otelcol-contrib_0.112.0_windows_amd64.zip
+        - otelcol/windows/otelcol-contrib_0.116.1_windows_amd64.zip
       executable: C:\apica\otelcol\otelcol-contrib.exe
       instance_id_file: C:\apica\agent-manager-otelcol.id
       platform: windows

@@ -6,11 +6,10 @@ receivers:
   prometheus:
     config:
       scrape_configs:
-        - job_name: 'prom-metrics-collector'
+        - job_name: "prom-metrics-collector"
           scrape_interval: 60s
           static_configs:
-            - targets: ['0.0.0.0:9464']
-
+            - targets: ["0.0.0.0:9464"]
   windowsperfcounters:
     metrics:
       system.up.time:
@@ -226,7 +225,6 @@ receivers:
       io.other.bytes.sec:
         unit: Bytes
         gauge:
-
     perfcounters:
       - object: System
         instances: "*"
@@ -387,44 +385,32 @@ receivers:
             metric: network.interface.output.queue.length
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
-            
 processors:
   resource/os:
     attributes:
       - key: ostype
         value: "windows"
         action: upsert
-
 exporters:
   debug:
     verbosity: detailed
   prometheus:
     endpoint: 0.0.0.0:9464
-
-  prometheusremotewrite/apicametrics:
-    endpoint: "{{$ .Agent.secret.apicametrics.endpoint }}"
+  otlphttp/apicametrics:
+    compression: gzip
+    disable_keep_alives: true
+    encoding: proto
+    metrics_endpoint: "{{$ .Agent.secret.otelmetrics.endpoint }}"
+    headers:
+      Authorization: "Bearer ${{$ .Agent.secret.otellogs.token }}"
     tls:
       insecure: false
       insecure_skip_verify: true
-    external_labels:
-      hostname: "{{$ .Agent.host_name }}"
-      ostype: "{{$ .Agent.platform }}"
-    resource_to_telemetry_conversion:
-      enabled: true # Convert resource attributes to metric labels
-
 extensions:
-
 service:
   extensions:
   pipelines:
-    metrics:
-      receivers: [otlp]
-      processors: [resource/os]
-      exporters: [prometheus]
-    metrics/winperf:
-      receivers: [windowsperfcounters]
-      exporters: [prometheus]
     metrics/out:
-      receivers: [prometheus]
+      receivers: [windowsperfcounters]
       processors: [resource/os]
-      exporters: [prometheusremotewrite/apicametrics]
+      exporters: [otlphttp/apicametrics]
