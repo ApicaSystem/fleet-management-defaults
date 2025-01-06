@@ -402,7 +402,7 @@ exporters:
     encoding: proto
     metrics_endpoint: "{{$ .Agent.secret.otelmetrics.endpoint }}"
     headers:
-      Authorization: "Bearer ${{$ .Agent.secret.otellogs.token }}"
+      Authorization: "Bearer {{$ .Agent.secret.otellogs.token }}"
     tls:
       insecure: false
       insecure_skip_verify: true
