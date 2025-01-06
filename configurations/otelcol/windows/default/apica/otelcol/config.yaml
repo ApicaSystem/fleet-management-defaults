@@ -404,6 +404,6 @@ service:
   extensions:
   pipelines:
     metrics:
-      receivers: [windowsperfcounters]
+      receivers: [otlp, windowsperfcounters]
       processors: [resource/os, resource/host]
       exporters: [debug]
