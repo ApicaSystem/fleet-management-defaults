@@ -36,6 +36,11 @@ processors:
       - key: ostype
         value: "linux"
         action: upsert
+  resource/host:
+    attributes:
+      - key: host.name
+        value: "{{$ .Agent.host_name }}"
+        action: upsert
 exporters:
   debug:
     verbosity: detailed
@@ -57,5 +62,5 @@ service:
   pipelines:
     metrics/out:
       receivers: [otlp, hostmetrics]
-      processors: [resource/os]
+      processors: [resource/host, resource/os]
       exporters: [otlphttp/apicametrics]
