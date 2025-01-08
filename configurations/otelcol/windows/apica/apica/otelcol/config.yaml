@@ -1,8 +1,4 @@
 receivers:
-  otlp:
-    protocols:
-      grpc:
-      http:
   windowsperfcounters:
     metrics:
       system.up.time:
@@ -379,14 +375,14 @@ receivers:
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
 processors:
-  resource/os:
-    attributes:
+  attributes/os:
+    actions:
       - key: ostype
         value: "windows"
         action: upsert
-  resource/host:
-    attributes:
-      - key: host.name
+  attributes/host:
+    actions:
+      - key: hostname
         value: "{{$ .Agent.host_name }}"
         action: upsert
 exporters:
@@ -409,6 +405,6 @@ service:
   extensions:
   pipelines:
     metrics/out:
-      receivers: [otlp, windowsperfcounters]
-      processors: [resource/host, resource/os]
+      receivers: [windowsperfcounters]
+      processors: [attributes/host, attributes/os]
       exporters: [otlphttp/apicametrics]

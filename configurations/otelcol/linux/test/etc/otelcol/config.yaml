@@ -38,19 +38,19 @@ receivers:
           static_configs:
             - targets: ["0.0.0.0:9464"]
 processors:
-  resource/test:
+  attributes/test:
     attributes:
       - key: test
         value: "test"
         action: upsert
-  resource/os:
+  attributes/os:
     attributes:
       - key: ostype
         value: "{{$ .Agent.platform }}"
         action: upsert
-  resource/host:
+  attributes/host:
     attributes:
-      - key: host.name
+      - key: hostname
         value: "{{$ .Agent.host_name }}"
         action: upsert
 exporters:
@@ -64,5 +64,5 @@ service:
   pipelines:
     metrics:
       receivers: [otlp, hostmetrics]
-      processors: [resource/test, resource/os, resource/host]
+      processors: [attributes/test, attributes/os, attributes/host]
       exporters: [debug]

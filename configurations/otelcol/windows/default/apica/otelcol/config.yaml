@@ -384,14 +384,14 @@ receivers:
           - name: "Offloaded Connections"
             metric: network.interface.offloaded.connections
 processors:
-  resource/os:
-    attributes:
+  attributes/os:
+    actions:
       - key: ostype
         value: "{{$ .Agent.platform }}"
         action: upsert
-  resource/host:
-    attributes:
-      - key: host.name
+  attributes/host:
+    actions:
+      - key: hostname
         value: "{{$ .Agent.host_name }}"
         action: upsert
 exporters:
@@ -405,5 +405,5 @@ service:
   pipelines:
     metrics:
       receivers: [otlp, windowsperfcounters]
-      processors: [resource/os, resource/host]
+      processors: [attributes/os, attributes/host]
       exporters: [debug]

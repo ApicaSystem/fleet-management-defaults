@@ -1,8 +1,4 @@
 receivers:
-  otlp:
-    protocols:
-      grpc:
-      http:
   hostmetrics:
     collection_interval: 60s
     scrapers:
@@ -31,14 +27,14 @@ receivers:
       paging:
       processes:
 processors:
-  resource/os:
-    attributes:
+  attributes/os:
+    actions:
       - key: ostype
         value: "linux"
         action: upsert
-  resource/host:
-    attributes:
-      - key: host.name
+  attributes/host:
+    actions:
+      - key: hostname
         value: "{{$ .Agent.host_name }}"
         action: upsert
 exporters:
@@ -61,6 +57,6 @@ service:
   extensions:
   pipelines:
     metrics/out:
-      receivers: [otlp, hostmetrics]
-      processors: [resource/host, resource/os]
+      receivers: [hostmetrics]
+      processors: [attributes/host, attributes/os]
       exporters: [otlphttp/apicametrics]
