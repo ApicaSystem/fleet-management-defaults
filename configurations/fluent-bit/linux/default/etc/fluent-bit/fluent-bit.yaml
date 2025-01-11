@@ -11,6 +11,6 @@ pipeline:
       processors:
         metrics:
           - name: labels
-            upsert: ostype windows
+            upsert: ostype linux
           - name: labels
             upsert: hostname {{$ .Agent.host_name }}
