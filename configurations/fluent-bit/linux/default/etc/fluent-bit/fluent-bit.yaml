@@ -4,7 +4,7 @@ pipeline:
   inputs:
     - name: opentelemetry
       listen: 127.0.0.1
-      port: 4318
+      port: 4319
   outputs:
     - name: stdout
       match: "*"
