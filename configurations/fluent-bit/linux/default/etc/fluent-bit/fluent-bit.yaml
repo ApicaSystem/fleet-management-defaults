@@ -1,0 +1,16 @@
+service:
+  log_level: info
+pipeline:
+  inputs:
+    - name: opentelemetry
+      listen: 127.0.0.1
+      port: 4318
+  outputs:
+    - name: stdout
+      match: "*"
+      processors:
+        metrics:
+          - name: ostype
+            upsert: ostype windows
+          - name: hostname
+            upsert: hostname {{$ Agent.host_name }}

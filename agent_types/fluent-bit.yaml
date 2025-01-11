@@ -6,12 +6,10 @@ manager_defaults:
     agent:
       agent_type: fluent-bit
       args:
-        - --config=/etc/fluent-bit/fluent-bit.conf
+        - --config=/etc/fluent-bit/fluent-bit.yaml
       auth_token_file: /etc/agent-manager/agent-manager-fluent-bit.tok
       default_config_assignments:
-        - fluent-bit/linux/default/etc/fluent-bit/fluent-bit.conf
-        - fluent-bit/linux/default/etc/fluent-bit/parsers.conf
-        - fluent-bit/linux/default/etc/fluent-bit/plugins.conf
+        - fluent-bit/linux/default/etc/fluent-bit/fluent-bit.yaml
       default_package_assignments:
         - fluent-bit/linux/fluent-bit_3.2.3_linux_amd64.zip
       executable: /opt/fluent-bit/bin/fluent-bit
@@ -24,12 +22,10 @@ manager_defaults:
     agent:
       agent_type: fluent-bit
       args:
-        - --config=C:\apica\fluent-bit\conf\fluent-bit.conf
+        - --config=C:\apica\fluent-bit\conf\fluent-bit.yaml
       auth_token_file: C:\apica\agent-manager-fluent-bit.tok
       default_config_assignments:
-        - fluent-bit/windows/default/apica/fluent-bit/conf/fluent-bit.conf
-        - fluent-bit/windows/default/apica/fluent-bit/conf/parsers.conf
-        - fluent-bit/windows/default/apica/fluent-bit/conf/plugins.conf
+        - fluent-bit/windows/default/apica/fluent-bit/conf/fluent-bit.yaml
       default_package_assignments:
         - fluent-bit/windows/fluent-bit_3.2.3_windows_amd64.zip
       executable: C:\apica\fluent-bit\bin\fluent-bit.exe
