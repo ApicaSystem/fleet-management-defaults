@@ -13,4 +13,4 @@ pipeline:
           - name: ostype
             upsert: ostype linux
           - name: hostname
-            upsert: hostname {{$ Agent.host_name }}
+            upsert: hostname {{$ .Agent.host_name }}
