@@ -10,7 +10,7 @@ pipeline:
       match: "*"
       processors:
         metrics:
-          - name: ostype
+          - name: labels
             upsert: ostype windows
-          - name: hostname
+          - name: labels
             upsert: hostname {{$ .Agent.host_name }}
