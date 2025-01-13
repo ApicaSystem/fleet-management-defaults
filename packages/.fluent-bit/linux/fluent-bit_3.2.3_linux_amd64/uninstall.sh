@@ -1,3 +1,3 @@
 #!/bin/sh
 
-apt-get remove --purge -y fluent-bit
+rm -rf /opt/fluent-bit
