@@ -20,21 +20,9 @@ spec:
       health_check: {}
       pprof:
         endpoint: 0.0.0.0:1777
-      zpages:
-        endpoint: 0.0.0.0:55679
     processors:
       batch: {}
     receivers:
-      jaeger:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:14250
-          thrift_binary:
-            endpoint: 0.0.0.0:6832
-          thrift_compact:
-            endpoint: 0.0.0.0:6831
-          thrift_http:
-            endpoint: 0.0.0.0:14268
       otlp:
         protocols:
           grpc:
@@ -49,13 +37,10 @@ spec:
               static_configs:
                 - targets:
                     - 0.0.0.0:8888
-      zipkin:
-        endpoint: 0.0.0.0:9411
     service:
       extensions:
         - health_check
         - pprof
-        - zpages
       pipelines:
         metrics:
           exporters:
@@ -72,8 +57,6 @@ spec:
             - batch
           receivers:
             - otlp
-            - jaeger
-            - zipkin
   configVersions: 3
   daemonSetUpdateStrategy: {}
   deploymentUpdateStrategy: {}

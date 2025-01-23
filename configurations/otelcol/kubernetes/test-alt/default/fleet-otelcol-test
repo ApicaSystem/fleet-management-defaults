@@ -20,8 +20,6 @@ spec:
       health_check: {}
       pprof:
         endpoint: 0.0.0.0:1777
-      zpages:
-        endpoint: 0.0.0.0:55679
     processors:
       batch: {}
     receivers:
@@ -55,7 +53,6 @@ spec:
       extensions:
         - health_check
         - pprof
-        - zpages
       pipelines:
         metrics:
           exporters:
