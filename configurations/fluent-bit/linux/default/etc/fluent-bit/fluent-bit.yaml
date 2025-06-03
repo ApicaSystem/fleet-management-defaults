@@ -2,9 +2,9 @@ service:
   log_level: info
 pipeline:
   inputs:
-    - name: opentelemetry
-      listen: 127.0.0.1
-      port: 4319
+    - name: tail
+      path: /var/log/*.log
+      tag: "logs"
   outputs:
     - name: stdout
       match: "*"
