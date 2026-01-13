@@ -7,11 +7,12 @@ manager_defaults:
       agent_type: telegraf
       args:
         - --config=/etc/telegraf/telegraf.conf
+        - --config-directory=/etc/telegraf/telegraf.d
       auth_token_file: /etc/agent-manager/agent-manager-telegraf.tok
       default_config_assignments:
         - telegraf/linux/default/etc/telegraf/telegraf.conf
       default_package_assignments:
-        - telegraf/linux/default.zip
+        - telegraf/linux/telegraf-1.34.1_linux_amd64.zip
       executable: /opt/telegraf/bin/telegraf
       instance_id_file: /etc/agent-manager/agent-manager-telegraf.id
       platform: linux
@@ -27,7 +28,7 @@ manager_defaults:
       default_config_assignments:
         - telegraf/windows/default/apica/telegraf/telegraf.conf
       default_package_assignments:
-        - telegraf/windows/default.zip
+        - telegraf/windows/telegraf-1.34.1_windows_amd64.zip
       executable: C:\apica\telegraf\telegraf.exe
       instance_id_file: C:\apica\agent-manager-telegraf.id
       platform: windows
